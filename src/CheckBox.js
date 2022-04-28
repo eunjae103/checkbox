@@ -1,20 +1,28 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const CheckBox = () => {
-  const fruits = [
-    { id: 1, text: "사과", checked: true },
-    { id: 2, text: "바나나", checked: true },
-    { id: 3, text: "배", checked: false },
-    { id: 4, text: "딸기", checked: false },
-  ];
+  const [fruits, setFruits] = useState([
+    { id: 1, text: "사과" },
+    { id: 2, text: "바나나" },
+    { id: 3, text: "배" },
+    { id: 4, text: "딸기" },
+  ]);
+  const [select, setSelect] = useState([]);
 
   return (
     <Box>
       {fruits.map((item) => (
-        <Check key={item.id}>
-          {item.checked ? <MdFavoriteBorder /> : <MdFavorite />}
+        <Check
+          key={item.id}
+          onClick={() => {
+            !select.includes(item.id)
+              ? setSelect((select) => [...select, item.id])
+              : setSelect(select.filter((button) => button !== item.id));
+          }}
+        >
+          {select.includes(item.id) ? <MdFavorite /> : <MdFavoriteBorder />}
           {item.text}
         </Check>
       ))}
