@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
@@ -17,12 +17,46 @@ const CheckBox = () => {
     );
   };
 
+  const [value, setValue] = useState("");
+  const onChange = useCallback((e) => {
+    setValue(e.target.value);
+  }, []);
+
+  const nextId = useRef(5);
+  const onInsert = useCallback(
+    (text) => {
+      const item = { id: nextId.current, text, active: false };
+      setFruits(fruits.concat(item));
+      nextId.current += 1;
+    },
+    [fruits]
+  );
+
+  const onClick = useCallback(() => {
+    onInsert(value);
+    setValue("");
+  }, [onInsert, value]);
+
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onClick();
+    }
+  };
+
   return (
     <>
       <Box>
-        <Insert>
-          <input type="text" placeholder="좋아하는 과일을 입력하세요" />
-          <button type="button">Add</button>
+        <Insert onInsert={onInsert}>
+          <input
+            type="text"
+            placeholder="좋아하는 과일을 입력하세요"
+            value={value}
+            onChange={onChange}
+            onKeyPress={onKeyPress}
+          />
+          <button type="button" onClick={onClick}>
+            Add
+          </button>
         </Insert>
         {fruits.map((item) => (
           <Check key={item.id} onClick={() => onToggle(item.id)}>
@@ -40,6 +74,7 @@ const Insert = styled.div`
   display: flex;
   padding: 20px;
   background: #ffb88c;
+
   input {
     border: none;
     background: none;
