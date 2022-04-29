@@ -4,14 +4,18 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const CheckBox = () => {
   const [fruits, setFruits] = useState([
-    { id: 1, text: "사과" },
-    { id: 2, text: "바나나" },
-    { id: 3, text: "배" },
-    { id: 4, text: "딸기" },
+    { id: 1, text: "사과", active: true },
+    { id: 2, text: "바나나", active: true },
+    { id: 3, text: "배", active: false },
+    { id: 4, text: "딸기", active: false },
   ]);
-  const [select, setSelect] = useState([]);
-
-  console.log("select: ", select);
+  const onToggle = (id) => {
+    setFruits(
+      fruits.map((item) =>
+        item.id === id ? { ...item, active: !item.active } : item
+      )
+    );
+  };
 
   return (
     <>
@@ -20,15 +24,8 @@ const CheckBox = () => {
           <input type="text" placeholder="좋아하는 과일을 입력하세요" />
         </Insert>
         {fruits.map((item) => (
-          <Check
-            key={item.id}
-            onClick={() => {
-              !select.includes(item.id)
-                ? setSelect((select) => [...select, item.id])
-                : setSelect(select.filter((button) => button !== item.id));
-            }}
-          >
-            {select.includes(item.id) ? <MdFavorite /> : <MdFavoriteBorder />}
+          <Check key={item.id} onClick={() => onToggle(item.id)}>
+            {item.active ? <MdFavorite /> : <MdFavoriteBorder />}
             {item.text}
           </Check>
         ))}
