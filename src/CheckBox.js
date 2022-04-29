@@ -11,8 +11,8 @@ const CheckBox = () => {
   ]);
   const onToggle = (id) => {
     setFruits(
-      fruits.map((item) =>
-        item.id === id ? { ...item, active: !item.active } : item
+      fruits.map((fruit) =>
+        fruit.id === id ? { ...fruit, active: !fruit.active } : fruit
       )
     );
   };
