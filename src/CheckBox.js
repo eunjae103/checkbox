@@ -4,10 +4,10 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const CheckBox = () => {
   const [fruits, setFruits] = useState([
-    { id: 1, text: "사과", active: false },
-    { id: 2, text: "바나나", active: false },
-    { id: 3, text: "배", active: false },
-    { id: 4, text: "딸기", active: false },
+    // { id: 1, text: "사과", active: false },
+    // { id: 2, text: "바나나", active: false },
+    // { id: 3, text: "배", active: false },
+    // { id: 4, text: "딸기", active: false },
   ]);
   const onToggle = (id) => {
     setFruits(
@@ -22,11 +22,11 @@ const CheckBox = () => {
     setValue(e.target.value);
   }, []);
 
-  const nextId = useRef(5);
+  const nextId = useRef(1);
   const onInsert = useCallback(
     (text) => {
-      const item = { id: nextId.current, text, active: false };
-      setFruits(fruits.concat(item));
+      const add = { id: nextId.current, text, active: false };
+      setFruits(fruits.concat(add));
       nextId.current += 1;
     },
     [fruits]
