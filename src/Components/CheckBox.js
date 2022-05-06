@@ -13,7 +13,15 @@ const CheckBox = ({ item, onToggle, onRemove }) => {
         {active ? <MdOutlineCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
         <div>{text}</div>
       </Check>
-      <Button onClick={() => onRemove(id)}>삭제</Button>
+      <Button
+        onClick={() => {
+          if (active) {
+            onRemove(id);
+          }
+        }}
+      >
+        삭제
+      </Button>
     </Wrap>
   );
 };

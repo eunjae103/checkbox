@@ -7,36 +7,33 @@ const Insert = ({ onInsert }) => {
     setValue(e.target.value);
   }, []);
 
-  const onClick = useCallback(() => {
-    onInsert(value);
-    setValue("");
-  }, [onInsert, value]);
-
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      onClick();
-    }
-  };
-  
+  const onSubmit = useCallback(
+    (e) => {
+      value && onInsert(value);
+      setValue("");
+      e.preventDefault();
+    },
+    [onInsert, value]
+  );
   return (
     <Inserton>
-      <input
-        type="text"
-        placeholder="좋아하는 과일을 입력하세요"
-        value={value}
-        onChange={onChange}
-        onKeyPress={onKeyPress}
-      />
-      <button type="button" onClick={onClick}>
-        Add
-      </button>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          maxLength={15}
+          placeholder="좋아하는 과일을 입력하세요"
+          value={value}
+          onChange={onChange}
+        />
+        <button type="submit">Add</button>
+      </form>
     </Inserton>
   );
 };
 const Inserton = styled.div`
   height: 60px;
   display: flex;
-  padding: 20px;
+  padding: 10px;
   background: #ffb88c;
 
   input {
@@ -52,11 +49,13 @@ const Inserton = styled.div`
       font-size: 15px;
     }
   }
+
   button {
     border: none;
     background: none;
     outline: none;
-    width: 70px;
+    padding: 10px;
+    width: 50px;
     border: 1px solid #666;
     background: #fff;
     font-size: 16px;
