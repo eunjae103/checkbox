@@ -1,42 +1,40 @@
-import React, { useCallback, useState, useRef } from "react";
-import Template from "./Components/Template";
-import Insert from "./Components/Insert";
-import List from "./Components/List";
+import { DownloadOutlined } from '@ant-design/icons';
+import { Button, Radio } from 'antd';
+import React, { useState } from 'react';
 
 const App = () => {
-  const [fruits, setFruits] = useState([
-    { id: 1, text: "사과", active: false },
-    { id: 2, text: "바나나", active: false },
-    { id: 3, text: "배", active: false },
-    { id: 4, text: "딸기", active: false },
-  ]);
-  const nextId = useRef(5);
-  const onInsert = useCallback(
-    (text) => {
-      const add = { id: nextId.current, text, active: false };
-      setFruits(fruits.concat(add));
-      nextId.current += 1;
-    },
-    [fruits]
-  );
-  const onToggle = (id) => {
-    setFruits(
-      fruits.map((item) =>
-        item.id === id ? { ...item, active: !item.active } : item
-      )
-    );
-  };
-  const onRemove = useCallback(
-    (id) => {
-      setFruits(fruits.filter((item) => item.id !== id));
-    },
-    [fruits]
-  );
+  const [size, setSize] = useState('large');
   return (
-    <Template>
-      <Insert onInsert={onInsert} />
-      <List fruits={fruits} onToggle={onToggle} onRemove={onRemove} />
-    </Template>
+    <>
+      <Radio.Group value={size} onChange={(e) => setSize(e.target.value)}>
+        <Radio.Button value="large">Large</Radio.Button>
+        <Radio.Button value="default">Default</Radio.Button>
+        <Radio.Button value="small">Small</Radio.Button>
+      </Radio.Group>
+      <br />
+      <br />
+      <Button type="primary" size={size}>
+        Primary
+      </Button>
+      <Button size={size}>Default</Button>
+      <Button type="dashed" size={size}>
+        Dashed
+      </Button>
+      <br />
+      <Button type="link" size={size}>
+        Link
+      </Button>
+      <br />
+      <Button type="primary" icon={<DownloadOutlined />} size={size} />
+      <Button type="primary" shape="circle" icon={<DownloadOutlined />} size={size} />
+      <Button type="primary" shape="round" icon={<DownloadOutlined />} size={size} />
+      <Button type="primary" shape="round" icon={<DownloadOutlined />} size={size}>
+        Download
+      </Button>
+      <Button type="primary" icon={<DownloadOutlined />} size={size}>
+        Download
+      </Button>
+    </>
   );
 };
 
